@@ -26,4 +26,8 @@
 
         Return Double.NaN
     End Function
+
+    Public Overrides Function ToString() As String
+        Return String.Format("{0} {1} {2}", _expression1, _operator, _expression2)
+    End Function
 End Class

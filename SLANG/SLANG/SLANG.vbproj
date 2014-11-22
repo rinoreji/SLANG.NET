@@ -69,6 +69,7 @@
   <ItemGroup>
     <Compile Include="BinaryExpression.vb" />
     <Compile Include="Expression.vb" />
+    <Compile Include="Lexer.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
@@ -86,7 +87,9 @@
     </Compile>
     <Compile Include="NumericConstant.vb" />
     <Compile Include="Operators.vb" />
+    <Compile Include="RDParser.vb" />
     <Compile Include="RuntimeContext.vb" />
+    <Compile Include="Token.vb" />
     <Compile Include="UnaryExpression.vb" />
   </ItemGroup>
   <ItemGroup>

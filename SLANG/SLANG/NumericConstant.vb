@@ -9,4 +9,8 @@
     Public Overrides Function Evaluate(context As RuntimeContext) As Double
         Return _value
     End Function
+
+    Public Overrides Function ToString() As String
+        Return _value.ToString()
+    End Function
 End Class

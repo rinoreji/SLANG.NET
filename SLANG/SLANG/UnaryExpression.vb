@@ -19,4 +19,7 @@
         Return Double.NaN
     End Function
 
+    Public Overrides Function ToString() As String
+        Return String.Format("{0} {1}", _operator, _expression)
+    End Function
 End Class
