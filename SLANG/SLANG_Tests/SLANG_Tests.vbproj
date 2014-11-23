@@ -99,10 +99,12 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="NumericConstantTests.vb" />
+    <Compile Include="PrintStatementTests.vb" />
     <Compile Include="RDParserTests.vb" />
     <Compile Include="FunctionalityTests.vb" />
     <Compile Include="TokenTests.vb" />
     <Compile Include="UnaryExpressionTests.vb" />
+    <Compile Include="ValueTableTests.vb" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="My Project\Resources.resx">

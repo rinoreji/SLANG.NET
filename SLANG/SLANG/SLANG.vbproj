@@ -87,10 +87,13 @@
     </Compile>
     <Compile Include="NumericConstant.vb" />
     <Compile Include="Operators.vb" />
+    <Compile Include="PrintStatement.vb" />
     <Compile Include="RDParser.vb" />
     <Compile Include="RuntimeContext.vb" />
-    <Compile Include="Token.vb" />
+    <Compile Include="Statement.vb" />
+    <Compile Include="Tokens.vb" />
     <Compile Include="UnaryExpression.vb" />
+    <Compile Include="ValueTable.vb" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="My Project\Resources.resx">

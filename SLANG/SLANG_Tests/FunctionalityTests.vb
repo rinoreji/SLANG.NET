@@ -44,5 +44,26 @@
         Assert.AreEqual("Minus 1 Plus 2 Plus 2 Mul 3 Minus 3", expression.ToString())
     End Sub
 
+    <TestMethod>
+    Sub RDParsetTest_ParseStatementsAndExecutesProperly()
+        Dim rand = New Random()
+        Dim value0 = rand.Next(100)
+        Dim value1 = rand.Next(100)
+
+        Dim text = String.Format("printline {0}+{1}; printline {0}+({0}*{1})-{1};", value0, value1)
+        Dim result As String = ""
+        Dim target = New RDParser(text)
+        Dim expressions = target.Parse()
+
+        For Each expresion In expressions
+            CType(expresion, PrintStatement).Write = Sub(value As String)
+                                                         result += value
+                                                     End Sub
+            expresion.Execute(Nothing)
+        Next
+
+        Dim expected As String = (value0 + value1).ToString() + (value0 + (value0 * value1) - value1).ToString()
+        Assert.AreEqual(expected, result)
+    End Sub
 
 End Class

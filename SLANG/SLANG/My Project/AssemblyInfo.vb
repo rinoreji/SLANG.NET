@@ -1,6 +1,7 @@
 ﻿Imports System
 Imports System.Reflection
 Imports System.Runtime.InteropServices
+Imports System.Runtime.CompilerServices
 
 ' General Information about an assembly is controlled through the following 
 ' set of attributes. Change these attribute values to modify the information
@@ -15,7 +16,7 @@ Imports System.Runtime.InteropServices
 <Assembly: AssemblyCopyright("Copyright ©  2014")> 
 <Assembly: AssemblyTrademark("")> 
 
-<Assembly: ComVisible(False)>
+<Assembly: ComVisible(False)> 
 
 'The following GUID is for the ID of the typelib if this project is exposed to COM
 <Assembly: Guid("e630b3b6-c8b0-418d-a574-fb7801a67165")> 
@@ -33,3 +34,4 @@ Imports System.Runtime.InteropServices
 
 <Assembly: AssemblyVersion("1.0.0.0")> 
 <Assembly: AssemblyFileVersion("1.0.0.0")> 
+<Assembly: InternalsVisibleTo("SLANG_Tests")> 
