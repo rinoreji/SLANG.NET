@@ -4,14 +4,13 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{DA1AB9B9-5E89-412E-BEED-94A935DFE324}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <StartupObject>
-    </StartupObject>
-    <RootNamespace>SLANG</RootNamespace>
-    <AssemblyName>SLANG</AssemblyName>
+    <ProjectGuid>{75EFAAE4-372B-4645-85B5-CB877D60DD8B}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <StartupObject>SLANG_Sample.Module1</StartupObject>
+    <RootNamespace>SLANG_Sample</RootNamespace>
+    <AssemblyName>SLANG_Sample</AssemblyName>
     <FileAlignment>512</FileAlignment>
-    <MyType>Windows</MyType>
+    <MyType>Console</MyType>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -21,7 +20,7 @@
     <DefineDebug>true</DefineDebug>
     <DefineTrace>true</DefineTrace>
     <OutputPath>bin\Debug\</OutputPath>
-    <DocumentationFile>SLANG.xml</DocumentationFile>
+    <DocumentationFile>SLANG_Sample.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
@@ -31,7 +30,7 @@
     <DefineTrace>true</DefineTrace>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
-    <DocumentationFile>SLANG.xml</DocumentationFile>
+    <DocumentationFile>SLANG_Sample.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
   </PropertyGroup>
   <PropertyGroup>
@@ -67,19 +66,7 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Contexts\CompilationContext.vb" />
-    <Compile Include="Expressions\Add.vb" />
-    <Compile Include="Expressions\BinaryExpression.vb" />
-    <Compile Include="Expressions\BooleanConstant.vb" />
-    <Compile Include="Expressions\UnarySubtract.vb" />
-    <Compile Include="Expressions\Divide.vb" />
-    <Compile Include="Expressions\Multiply.vb" />
-    <Compile Include="Expressions\Subtract.vb" />
-    <Compile Include="Expressions\UnaryAdd.vb" />
-    <Compile Include="Expressions\Variable.vb" />
-    <Compile Include="Expressions\StringLiteral.vb" />
-    <Compile Include="Expressions\Expression.vb" />
-    <Compile Include="Lexer.vb" />
+    <Compile Include="Module1.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
@@ -95,19 +82,6 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="Expressions\NumericConstant.vb" />
-    <Compile Include="Operators.vb" />
-    <Compile Include="RDParser.vb" />
-    <Compile Include="Statements\Assignment.vb" />
-    <Compile Include="Statements\Print.vb" />
-    <Compile Include="Contexts\RuntimeContext.vb" />
-    <Compile Include="Statements\Statement.vb" />
-    <Compile Include="Statements\VariableDeclaration.vb" />
-    <Compile Include="Symbol.vb" />
-    <Compile Include="SymbolTable.vb" />
-    <Compile Include="Tokens.vb" />
-    <Compile Include="Types.vb" />
-    <Compile Include="ValueTable.vb" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="My Project\Resources.resx">
@@ -128,8 +102,22 @@
       <LastGenOutput>Settings.Designer.vb</LastGenOutput>
     </None>
     <None Include="App.config" />
+    <None Include="scripts\First.sl">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="scripts\Second.sl">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="scripts\third.sl">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\SLANG\SLANG.vbproj">
+      <Project>{da1ab9b9-5e89-412e-beed-94a935dfe324}</Project>
+      <Name>SLANG</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

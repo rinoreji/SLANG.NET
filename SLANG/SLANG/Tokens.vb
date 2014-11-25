@@ -11,5 +11,14 @@
     Print 'Print statement
     PrintLine  'PrintLine statement
     SemiColon ';
-    UnquotedString 'Unquoted section in statement line
+
+    UnquotedString 'Unquoted section in statement line, used for variable name and function names
+    Var_Number ' Number datatype
+    Var_String 'String datatype
+    Var_Bool 'Bool datatype
+    Comment
+    TrueValue
+    FalseValue
+    Assignment
+    StringValue
 End Enum

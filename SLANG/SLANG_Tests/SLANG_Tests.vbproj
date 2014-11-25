@@ -80,7 +80,17 @@
     <Import Include="Microsoft.VisualStudio.TestTools.UnitTesting" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BinaryExpressionTests.vb" />
+    <Compile Include="Contexts\CompilationContextTests.vb" />
+    <Compile Include="Contexts\RuntimeContextTests.vb" />
+    <Compile Include="Expressions\AdditionTests.vb" />
+    <Compile Include="Expressions\BooleanConstantTests.vb" />
+    <Compile Include="Expressions\UnarySubtractTests.vb" />
+    <Compile Include="Expressions\DivisionTests.vb" />
+    <Compile Include="Expressions\MultiplicationTests.vb" />
+    <Compile Include="Expressions\SubtractionTests.vb" />
+    <Compile Include="Expressions\StringLiteralTests.vb" />
+    <Compile Include="Expressions\UnaryAddTests.vb" />
+    <Compile Include="Expressions\VariableTests.vb" />
     <Compile Include="LexerTests.vb" />
     <Compile Include="MiscTests.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
@@ -98,12 +108,15 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="NumericConstantTests.vb" />
-    <Compile Include="PrintStatementTests.vb" />
+    <Compile Include="Expressions\NumericConstantTests.vb" />
     <Compile Include="RDParserTests.vb" />
-    <Compile Include="FunctionalityTests.vb" />
+    <Compile Include="Statements\AssignmentTests.vb" />
+    <Compile Include="Statements\PrintTests.vb" />
+    <Compile Include="Statements\VariableDeclarationTests.vb" />
+    <Compile Include="SymbolTableTests.vb" />
+    <Compile Include="SymbolTests.vb" />
     <Compile Include="TokenTests.vb" />
-    <Compile Include="UnaryExpressionTests.vb" />
+    <Compile Include="TypesTest.vb" />
     <Compile Include="ValueTableTests.vb" />
   </ItemGroup>
   <ItemGroup>
@@ -131,6 +144,7 @@
       <Name>SLANG</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
       <ItemGroup>

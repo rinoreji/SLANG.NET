@@ -50,7 +50,7 @@
         Dim value0 = rand.Next(100)
         Dim value1 = rand.Next(100)
 
-        Dim text = String.Format("printline {0}+{1}; printline {0}+({0}*{1})-{1};", value0, value1)
+        Dim text = String.Format("printline {0}+{1};{2}printline {0}+({0}*{1})-{1};", value0, value1, ControlChars.CrLf)
         Dim result As String = ""
         Dim target = New RDParser(text)
         Dim expressions = target.Parse()

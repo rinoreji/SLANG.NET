@@ -63,7 +63,7 @@ Public Class LexerTests
 
     <TestMethod>
     Sub GetNextTokenTest_ReturnsTokenFromValueTable()
-        Dim target = New Lexer("Printline ; 1 Print 2 invalid")
+        Dim target = New Lexer("Printline ; 1 Print 2")
 
         Assert.AreEqual(Tokens.PrintLine, target.GetNextToken())
         Assert.AreEqual(Tokens.SemiColon, target.GetNextToken())
@@ -72,11 +72,45 @@ Public Class LexerTests
         Assert.AreEqual(Tokens.Print, target.GetNextToken())
         Assert.AreEqual(Tokens.Number, target.GetNextToken())
         Assert.AreEqual(2.0, target.GetNumber())
+    End Sub
 
-        Try
-            Assert.AreEqual(Tokens.Print, target.GetNextToken())
-        Catch ex As Exception
-            Assert.AreEqual("Error while parsing", ex.Message)
-        End Try
+    <TestMethod>
+    Sub GetNextTokenTest_ReturnsStringsAndAssignments()
+        Dim varName = "variableName_With_No_Digits"
+        Dim value = Guid.NewGuid().ToString() + " " + Guid.NewGuid().ToString()
+
+        Dim target = New Lexer(String.Format("Printline ; datatype {0}=""{1}"";Print 1;", varName, value))
+
+        Assert.AreEqual(Tokens.PrintLine, target.GetNextToken())
+        Assert.AreEqual(Tokens.SemiColon, target.GetNextToken())
+        Assert.AreEqual(Tokens.UnquotedString, target.GetNextToken())
+        Assert.AreEqual("datatype", target.GetString())
+        Assert.AreEqual(Tokens.UnquotedString, target.GetNextToken())
+        Assert.AreEqual(varName, target.GetString())
+        Assert.AreEqual(Tokens.Assignment, target.GetNextToken())
+        Assert.AreEqual(Tokens.StringValue, target.GetNextToken())
+        Assert.AreEqual(value, target.GetString())
+        Assert.AreEqual(Tokens.SemiColon, target.GetNextToken())
+        Assert.AreEqual(Tokens.Print, target.GetNextToken())
+        Assert.AreEqual(Tokens.Number, target.GetNextToken())
+        Assert.AreEqual(1.0, target.GetNumber())
+        Assert.AreEqual(Tokens.SemiColon, target.GetNextToken())
+        Assert.AreEqual(Tokens.EOE, target.GetNextToken())
+    End Sub
+
+    <TestMethod>
+    Sub GetNextTokenTest_HandlesComments()
+        Dim sourceCode = String.Format("//comment goes here. {0}Print 1;{0}//nextComment{1}{2}Print 2", ControlChars.NewLine, ControlChars.Cr, ControlChars.Lf)
+
+        Dim target = New Lexer(sourceCode)
+
+        Assert.AreEqual(Tokens.Print, target.GetNextToken())
+        Assert.AreEqual(Tokens.Number, target.GetNextToken())
+        Assert.AreEqual(1.0, target.GetNumber())
+        Assert.AreEqual(Tokens.SemiColon, target.GetNextToken())
+        Assert.AreEqual(Tokens.Print, target.GetNextToken())
+        Assert.AreEqual(Tokens.Number, target.GetNextToken())
+        Assert.AreEqual(2.0, target.GetNumber())
+        Assert.AreEqual(Tokens.EOE, target.GetNextToken())
     End Sub
 End Class
