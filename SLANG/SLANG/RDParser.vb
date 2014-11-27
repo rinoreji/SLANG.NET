@@ -62,8 +62,8 @@ Public Class RDParser
             _expression = New BooleanConstant(If(_CurrToken = Tokens.TrueValue, True, False))
             _CurrToken = GetNextToken()
         ElseIf (_CurrToken = Tokens.OpeningParenthesis) Then
-            _CurrToken = GetNextToken()
-            _expression = Expression(context)
+            '_CurrToken = GetNextToken()
+            _expression = GetBExpression(context)
             If (_CurrToken <> Tokens.ClosingParenthesis) Then
                 Throw New Exception("Missing closing parenthesis")
             End If
@@ -75,6 +75,11 @@ Public Class RDParser
             _expression = If(lastToken = Tokens.Plus,
                              New UnaryAdd(_expression),
                              New UnarySubtract(_expression))
+        ElseIf (_CurrToken = Tokens.LogicalNot) Then
+            lastToken = _CurrToken
+            _CurrToken = GetNextToken()
+            _expression = Factor(context)
+            _expression = New LogicalExpression(_expression, Nothing, Tokens.LogicalNot)
         ElseIf _CurrToken = Tokens.UnquotedString Then
             Dim symbol = context.SymbolTable.GetSymbol(GetString())
             If (IsNothing(symbol)) Then
@@ -90,14 +95,21 @@ Public Class RDParser
 
     Public Function Parse(context As CompilationContext) As Statement()
         _CurrToken = GetNextToken()
+        Return GetStatementBlock(context).ToArray(GetType(Statement))
+    End Function
+
+    Function GetStatementBlock(context As CompilationContext) As ArrayList
         Dim statements As ArrayList = New ArrayList()
 
-        While (_CurrToken <> Tokens.EOE)
+        While ((_CurrToken <> Tokens.EOE) AndAlso
+               (_CurrToken <> Tokens.ElseToken) AndAlso
+               (_CurrToken <> Tokens.EndIfToken) AndAlso
+               (_CurrToken <> Tokens.EndWhileToken))
             statements.Add(ExtractStatement(context))
             _CurrToken = GetNextToken()
         End While
 
-        Return statements.ToArray(GetType(Statement))
+        Return statements '.ToArray(GetType(Statement))
     End Function
 
     Private Function ExtractStatement(context As CompilationContext) As Statement
@@ -110,9 +122,53 @@ Public Class RDParser
                 Return New Print(GetExpressionToPrint(context))
             Case Tokens.PrintLine
                 Return New PrintLine(GetExpressionToPrint(context))
+            Case Tokens.IfToken
+                Return ParseIfStatement(context)
+            Case Tokens.WhileToken
+                Return ParseWhileStatement(context)
             Case Else
                 Throw New Exception("Invalid statement")
         End Select
+    End Function
+
+    Private Function ParseIfStatement(context As CompilationContext) As Statement
+        Dim expression = GetBExpression(context)
+        If (expression.TypeCheck(context) <> Types.BooleanType) Then
+            Throw New Exception("Condition error")
+        End If
+        If (_CurrToken <> Tokens.ThenToken) Then
+            Throw New Exception("THEN expected")
+        End If
+
+        _CurrToken = GetNextToken()
+        Dim trueStatements = GetStatementBlock(context)
+        If (_CurrToken = Tokens.EndIfToken) Then
+            Return New IfStatement(expression, trueStatements, Nothing)
+        End If
+
+        If (_CurrToken <> Tokens.ElseToken) Then
+            Throw New Exception("ELSE expected")
+        End If
+
+        _CurrToken = GetNextToken()
+        Dim falseStatements = GetStatementBlock(context)
+        If (_CurrToken = Tokens.EndIfToken) Then
+            Return New IfStatement(expression, trueStatements, falseStatements)
+        Else
+            Throw New Exception("ENDIF expected")
+        End If
+    End Function
+
+    Private Function ParseWhileStatement(context As CompilationContext) As Statement
+        Dim expression = GetBExpression(context)
+        If (expression.TypeCheck(context) <> Types.BooleanType) Then
+            Throw New Exception("Condition error")
+        End If
+        Dim statements = GetStatementBlock(context)
+        If (_CurrToken <> Tokens.EndWhileToken) Then
+            Throw New Exception("While should end with WEND")
+        End If
+        Return New WhileStatement(expression, statements)
     End Function
 
     Private Function GetVariableDeclarationStatement(context As CompilationContext) As Statement
@@ -149,24 +205,66 @@ Public Class RDParser
         If (_CurrToken <> Tokens.Assignment) Then
             Throw New Exception("Invalid statement, = expected")
         End If
-        Dim expression = GetExpression(context)
+        Dim expression = GetBExpression(context)
         If (expression.TypeCheck(context) <> symbol.Type) Then
             Throw New Exception("Type mismatch in assignment")
         End If
         If (_CurrToken <> Tokens.SemiColon) Then
             Throw New Exception("; expected")
         End If
-        '_CurrToken = GetNextToken()
+
         Return New Assignment(New Variable(symbol), expression)
 
     End Function
 
     Private Function GetExpressionToPrint(context As CompilationContext) As Expression
-        Dim expression = GetExpression(context)
+        Dim expression = GetBExpression(context)
         If (_CurrToken <> Tokens.SemiColon) Then
             Throw New Exception("Invalid statement, missing ';'")
         End If
         Return expression
+    End Function
+
+    Function GetLExpression(context As CompilationContext) As Expression
+        Dim lastToken As Tokens
+        Dim expression = GetExpression(context)
+        While (_CurrToken = Tokens.GreaterThan Or _CurrToken = Tokens.GreaterThanEqual Or
+               _CurrToken = Tokens.LessThan Or _CurrToken = Tokens.LessThanEqual Or
+               _CurrToken = Tokens.NotEquals Or _CurrToken = Tokens.Equals)
+            lastToken = _CurrToken
+            Dim nextExpression = GetExpression(context)
+            Dim optr = GetRelationalOperator(lastToken)
+            expression = New RelationalExpression(expression, nextExpression, optr)
+        End While
+        Return expression
+    End Function
+
+    Function GetBExpression(context As CompilationContext) As Expression
+        Dim lastToken As Tokens
+        Dim expression = GetLExpression(context)
+        While (_CurrToken = Tokens.LogicalAnd Or _CurrToken = Tokens.LogicalOr)
+            lastToken = _CurrToken
+            Dim nextExpression = GetExpression(context)
+            expression = New LogicalExpression(expression, nextExpression, lastToken)
+        End While
+        Return expression
+    End Function
+
+    Function GetRelationalOperator(token As Tokens) As Operators
+        Select Case token
+            Case Tokens.Equals
+                Return Operators.Equals
+            Case Tokens.NotEquals
+                Return Operators.NotEquals
+            Case Tokens.GreaterThan
+                Return Operators.GreaterThan
+            Case Tokens.LessThan
+                Return Operators.LessThan
+            Case Tokens.GreaterThanEqual
+                Return Operators.GreaterThanEqual
+            Case Else
+                Return Operators.LessThanEqual
+        End Select
     End Function
 
 End Class

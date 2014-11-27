@@ -102,6 +102,9 @@
       <LastGenOutput>Settings.Designer.vb</LastGenOutput>
     </None>
     <None Include="App.config" />
+    <None Include="scripts\IfAndWhile.sl">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="scripts\First.sl">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

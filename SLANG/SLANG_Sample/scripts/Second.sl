@@ -6,11 +6,11 @@
 //
 
 
-Number a ;
+BOOL a ;
 
-a = -1 ;
-
-a = -a;
+a = True ;
+PRINT a
+a = !a;
 
 Print a;
 

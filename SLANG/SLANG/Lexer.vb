@@ -23,7 +23,13 @@ Public Class Lexer
                                         New ValueTable(Tokens.FalseValue, "FALSE"),
                                         New ValueTable(Tokens.Var_Number, "NUMBER"),
                                         New ValueTable(Tokens.Var_Bool, "BOOL"),
-                                        New ValueTable(Tokens.Var_String, "STRING")
+                                        New ValueTable(Tokens.Var_String, "STRING"),
+                                        New ValueTable(Tokens.IfToken, "IF"),
+                                        New ValueTable(Tokens.ElseToken, "ELSE"),
+                                        New ValueTable(Tokens.EndIfToken, "ENDIF"),
+                                        New ValueTable(Tokens.WhileToken, "WHILE"),
+                                        New ValueTable(Tokens.EndWhileToken, "WEND"),
+                                        New ValueTable(Tokens.ThenToken, "THEN")
                                         }
     End Sub
 
@@ -77,9 +83,45 @@ re_start:
             Case ";"c
                 _currIndex += 1
                 Return Tokens.SemiColon
+            Case "&"c
+                _currIndex += 1
+                If (_expression(_currIndex) = "&"c) Then
+                    _currIndex += 1
+                    Return Tokens.LogicalAnd
+                End If
+            Case "|"c
+                _currIndex += 1
+                If (_expression(_currIndex) = "|"c) Then
+                    _currIndex += 1
+                    Return Tokens.LogicalOr
+                End If
+            Case "!"c
+                _currIndex += 1
+                Return Tokens.LogicalNot
             Case "="c
                 _currIndex += 1
+                If (_expression(_currIndex) = "="c) Then
+                    _currIndex += 1
+                    Return Tokens.Equals
+                End If
                 Return Tokens.Assignment
+            Case ">"c
+                _currIndex += 1
+                If (_expression(_currIndex) = "="c) Then
+                    _currIndex += 1
+                    Return Tokens.GreaterThanEqual
+                End If
+                Return Tokens.GreaterThan
+            Case "<"c
+                _currIndex += 1
+                If (_expression(_currIndex) = "="c) Then
+                    _currIndex += 1
+                    Return Tokens.LessThanEqual
+                ElseIf (_expression(_currIndex) = ">"c) Then
+                    _currIndex += 1
+                    Return Tokens.NotEquals
+                End If
+                Return Tokens.LessThan
             Case """"c
                 _currIndex += 1
                 Dim str As String = ""

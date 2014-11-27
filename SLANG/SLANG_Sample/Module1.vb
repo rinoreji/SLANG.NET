@@ -14,7 +14,7 @@ Module Module1
         Dim sourceCode = File.ReadAllText(Path.Combine(
                                           Environment.CurrentDirectory,
                                           "scripts",
-                                          "first.sl"))
+                                          "IfAndWhile.sl"))
         Console.WriteLine(sourceCode)
         Console.WriteLine(ControlChars.NewLine)
 

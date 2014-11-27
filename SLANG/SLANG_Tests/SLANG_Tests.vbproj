@@ -84,6 +84,8 @@
     <Compile Include="Contexts\RuntimeContextTests.vb" />
     <Compile Include="Expressions\AdditionTests.vb" />
     <Compile Include="Expressions\BooleanConstantTests.vb" />
+    <Compile Include="Expressions\LogicalExpressionTests.vb" />
+    <Compile Include="Expressions\RelationalExpressionTests.vb" />
     <Compile Include="Expressions\UnarySubtractTests.vb" />
     <Compile Include="Expressions\DivisionTests.vb" />
     <Compile Include="Expressions\MultiplicationTests.vb" />
@@ -111,6 +113,8 @@
     <Compile Include="Expressions\NumericConstantTests.vb" />
     <Compile Include="RDParserTests.vb" />
     <Compile Include="Statements\AssignmentTests.vb" />
+    <Compile Include="Statements\WhileStatementTests.vb" />
+    <Compile Include="Statements\IfStatementTests.vb" />
     <Compile Include="Statements\PrintTests.vb" />
     <Compile Include="Statements\VariableDeclarationTests.vb" />
     <Compile Include="SymbolTableTests.vb" />

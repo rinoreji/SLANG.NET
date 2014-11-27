@@ -21,4 +21,23 @@
     FalseValue
     Assignment
     StringValue
+
+    Equals
+    NotEquals
+    GreaterThan
+    GreaterThanEqual
+    LessThan
+    LessThanEqual
+
+    LogicalAnd
+    LogicalOr
+    LogicalNot
+
+    IfToken
+    ThenToken
+    ElseToken
+    EndIfToken
+    WhileToken
+    EndWhileToken
+
 End Enum

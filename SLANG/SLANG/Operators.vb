@@ -1,8 +1,10 @@
 ﻿
 Public Enum Operators
     Illegal = -1
-    Plus
-    Minus
-    Div
-    Mul
+    Equals
+    NotEquals
+    GreaterThan
+    GreaterThanEqual
+    LessThan
+    LessThanEqual
 End Enum

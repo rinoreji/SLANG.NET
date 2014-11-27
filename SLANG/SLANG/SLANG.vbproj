@@ -71,6 +71,8 @@
     <Compile Include="Expressions\Add.vb" />
     <Compile Include="Expressions\BinaryExpression.vb" />
     <Compile Include="Expressions\BooleanConstant.vb" />
+    <Compile Include="Expressions\LogicalExpression.vb" />
+    <Compile Include="Expressions\RelationalExpression.vb" />
     <Compile Include="Expressions\UnarySubtract.vb" />
     <Compile Include="Expressions\Divide.vb" />
     <Compile Include="Expressions\Multiply.vb" />
@@ -99,6 +101,8 @@
     <Compile Include="Operators.vb" />
     <Compile Include="RDParser.vb" />
     <Compile Include="Statements\Assignment.vb" />
+    <Compile Include="Statements\WhileStatement.vb" />
+    <Compile Include="Statements\IfStatement.vb" />
     <Compile Include="Statements\Print.vb" />
     <Compile Include="Contexts\RuntimeContext.vb" />
     <Compile Include="Statements\Statement.vb" />
